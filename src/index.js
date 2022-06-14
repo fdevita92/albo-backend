@@ -3,9 +3,12 @@ const app = fastify();
 const mongoose = require('mongoose');
 const noteRoutes = require('./routes/noteRoutes');
 const contentRangeHook = require('./hooks/contentRangeHook');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 try {
-  mongoose.connect('mongodb://localhost:27017/notes_db', {
+  mongoose.connect(process.env.DB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
