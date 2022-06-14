@@ -10,8 +10,8 @@ const noteSchema = new Schema({
   taxcode: { type: String, required: true },
   category: { type: String, required: true },
   leaderboard:{type:String, required:true},
-  isWinner: { type: String, required: true },
-  winnerDate: { type: String, required: true },
+  isWinner: { type: String, required: false },
+  winnerDate: { type: String, required: false },
 });
 
 const Note = mongoose.model('note', noteSchema);
