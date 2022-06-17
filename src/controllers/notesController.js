@@ -5,7 +5,7 @@ module.exports = {
   create: async (request, reply) => {
     try {
       const note = request.body;
-      //console.log(request.body);
+      console.log(request.body)
       const newNote = await Note.create(note);
       reply.code(201).send(newNote);
     } catch (e) {
@@ -37,10 +37,30 @@ module.exports = {
       //isEmpty = JSON.stringify(filter_data) === '{}';
       notes = null;
 
-      //console.log(filter)
+      console.log(filter)
+
+      if(q && categories_not_soa && categories_soa){
+        notes = await Note.find().and([{"categories_not_soa":{$all: categories_not_soa }},{name:q},{"categories_soa":{ $all: categories_soa }}]).sort({[field]:order});
+        reply.code(200).send(notes);
+      }
+
+      if(categories_not_soa && categories_soa){
+        notes = await Note.find().and([{"categories_not_soa":{$all: categories_not_soa }},{"categories_soa":{ $all: categories_soa }}]).sort({[field]:order});
+        reply.code(200).send(notes);
+      }
+
+      if(q && categories_soa){
+        notes = await Note.find().and([{"categories_soa":{ $all: categories_soa }},{name:q}]).sort({[field]:order});
+        reply.code(200).send(notes);
+      }
 
       if(q && categories_not_soa){
-        notes = await Note.find().and([{ "categories_not_soa":{ $all: categories_not_soa } },{name:q}]).sort({[field]:order});
+        notes = await Note.find().and([{"categories_not_soa":{ $all: categories_not_soa }},{name:q}]).sort({[field]:order});
+        reply.code(200).send(notes);
+      }
+
+      if(categories_soa){
+        notes = await Note.find({ "categories_soa":{ $all: categories_soa }}).sort({[field]:order});
         reply.code(200).send(notes);
       }
 
@@ -50,7 +70,7 @@ module.exports = {
       }
 
       if(q){
-        notes = await Note.find({name:q});
+        notes = await Note.find({name:q}).sort({[field]:order});
         reply.code(200).send(notes);
       }
 
