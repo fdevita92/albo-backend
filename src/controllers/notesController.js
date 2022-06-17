@@ -37,7 +37,7 @@ module.exports = {
       //isEmpty = JSON.stringify(filter_data) === '{}';
       notes = null;
 
-      console.log(filter)
+      //console.log(filter)
 
       if(q && categories_not_soa && categories_soa){
         notes = await Note.find().and([{"categories_not_soa":{$all: categories_not_soa }},{name:q},{"categories_soa":{ $all: categories_soa }}]).sort({[field]:order});
@@ -78,17 +78,6 @@ module.exports = {
         notes = await Note.find({}).sort({[field]:order});
         reply.code(200).send(notes);
       }
-
-      //if (!q){
-      //  notes = await Note.find({}).sort({[field]:order});
-      //}
-      
-      //if(!isEmpty && q){
-      //  notes = await Note.find({name:filter_data["q"]});
-        //notes = await Note.find({ "categories_not_soa":{ $all: categories_not_soa } })
-        //notes = await Note.find().and([{ "categories_not_soa":{ $all: categories_not_soa } },{name:filter_data["q"]}])
-      //}
-      //reply.code(200).send(notes);
     } catch (e) {
       reply.code(500).send(e);
     }
