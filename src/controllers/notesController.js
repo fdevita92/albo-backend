@@ -5,6 +5,7 @@ module.exports = {
   create: async (request, reply) => {
     try {
       const note = request.body;
+      //console.log(request.body);
       const newNote = await Note.create(note);
       reply.code(201).send(newNote);
     } catch (e) {
@@ -15,8 +16,59 @@ module.exports = {
   //#get the list of notes
   fetch: async (request, reply) => {
     try {
-      const notes = await Note.find({});
-      reply.code(200).send(notes);
+      //sort
+      const sort = request.query.sort;
+      sort_array = JSON.parse(sort);
+      const field = sort_array[0];
+      order = null;
+      if (sort_array[1] === "ASC"){
+        order = 1;
+      }
+      if (sort_array[1] === "DESC"){
+        order = -1;
+      }
+
+      // filtering
+      const filter = request.query.filter;
+      filter_data = JSON.parse(filter);
+      categories_not_soa = filter_data["categories_not_soa"];
+      categories_soa = filter_data["categories_soa"];
+      q = filter_data["q"];
+      //isEmpty = JSON.stringify(filter_data) === '{}';
+      notes = null;
+
+      //console.log(filter)
+
+      if(q && categories_not_soa){
+        notes = await Note.find().and([{ "categories_not_soa":{ $all: categories_not_soa } },{name:q}]).sort({[field]:order});
+        reply.code(200).send(notes);
+      }
+
+      if(categories_not_soa){
+        notes = await Note.find({ "categories_not_soa":{ $all: categories_not_soa }}).sort({[field]:order});
+        reply.code(200).send(notes);
+      }
+
+      if(q){
+        notes = await Note.find({name:q});
+        reply.code(200).send(notes);
+      }
+
+      if(!q){
+        notes = await Note.find({}).sort({[field]:order});
+        reply.code(200).send(notes);
+      }
+
+      //if (!q){
+      //  notes = await Note.find({}).sort({[field]:order});
+      //}
+      
+      //if(!isEmpty && q){
+      //  notes = await Note.find({name:filter_data["q"]});
+        //notes = await Note.find({ "categories_not_soa":{ $all: categories_not_soa } })
+        //notes = await Note.find().and([{ "categories_not_soa":{ $all: categories_not_soa } },{name:filter_data["q"]}])
+      //}
+      //reply.code(200).send(notes);
     } catch (e) {
       reply.code(500).send(e);
     }
@@ -57,4 +109,5 @@ module.exports = {
       reply.code(500).send(e);
     }
   },
+
 };

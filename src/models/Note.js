@@ -1,3 +1,4 @@
+const { Mixed } = require('mongoose');
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
@@ -9,9 +10,9 @@ const noteSchema = new Schema({
   address: { type: String, required: true },
   pec: { type: String, required: true },
   taxcode: { type: String, required: true },
-  categories_soa: { type: Array, required: true },
-  categories_not_soa: { type: Array, required: true },
-  isWinner: { type: String, required: false },
+  categories_soa: {type:[String], required: false },
+  categories_not_soa: {type: [String], required: false },
+  invitedDate: { type: String, required: false },
   winnerDate: { type: String, required: false },
 });
 
