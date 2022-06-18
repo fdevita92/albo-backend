@@ -17,6 +17,7 @@ module.exports = {
   fetch: async (request, reply) => {
     try {
       //sort
+      console.log(request.query)
       const sort = request.query.sort;
       sort_array = JSON.parse(sort);
       const field = sort_array[0];
@@ -37,28 +38,29 @@ module.exports = {
       q = filter_data["q"];
       notes = null;
 
-      console.log(filter);
+      //console.log(filter);
 
       query = [];
 
       if(q){
-        query.push({name:q})
+        //query.push({name:q})
+        query.push({"name":{ $regex: q}});
       }
 
       if(categories_soa){
-        query.push({"categories_soa":{$all: categories_soa }})
+        query.push({"categories_soa":{$all: categories_soa }});
       }
 
       if(categories_not_soa){
-        query.push({"categories_not_soa":{$all: categories_not_soa }})
+        query.push({"categories_not_soa":{$all: categories_not_soa }});
       }
 
       if(winnerDate){
-        query.push({"winnerDate":{ $regex: winnerDate}})
+        query.push({"winnerDate":{ $regex: winnerDate}});
       }
 
       if(invitedDate){
-        query.push({"invitedDate":{ $regex: invitedDate}})
+        query.push({"invitedDate":{ $regex: invitedDate}});
       }
 
       //console.log(query);
@@ -70,10 +72,6 @@ module.exports = {
         notes = await Note.find({}).sort({[field]:order})
         reply.code(200).send(notes);
       }
-
-      
-
-      
       
       /*
       if(q && categories_not_soa && categories_soa){
