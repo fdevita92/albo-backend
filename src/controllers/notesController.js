@@ -23,8 +23,7 @@ module.exports = {
       order = null;
       if (sort_array[1] === "ASC"){
         order = 1;
-      }
-      if (sort_array[1] === "DESC"){
+      }else{
         order = -1;
       }
 
@@ -33,19 +32,127 @@ module.exports = {
       filter_data = JSON.parse(filter);
       categories_not_soa = filter_data["categories_not_soa"];
       categories_soa = filter_data["categories_soa"];
+      invitedDate = filter_data["invitedDate"];
+      winnerDate = filter_data["winnerDate"];
       q = filter_data["q"];
-      //isEmpty = JSON.stringify(filter_data) === '{}';
       notes = null;
 
-      //console.log(filter)
+      console.log(filter);
 
+      query = [];
+
+      if(q){
+        query.push({name:q})
+      }
+
+      if(categories_soa){
+        query.push({"categories_soa":{$all: categories_soa }})
+      }
+
+      if(categories_not_soa){
+        query.push({"categories_not_soa":{$all: categories_not_soa }})
+      }
+
+      if(winnerDate){
+        query.push({"winnerDate":{ $regex: winnerDate}})
+      }
+
+      if(invitedDate){
+        query.push({"invitedDate":{ $regex: invitedDate}})
+      }
+
+      //console.log(query);
+
+      if(query.length > 0){
+        notes = await Note.find().and(query).sort({[field]:order});
+        reply.code(200).send(notes);
+      }else{
+        notes = await Note.find({}).sort({[field]:order})
+        reply.code(200).send(notes);
+      }
+
+      
+
+      
+      
+      /*
       if(q && categories_not_soa && categories_soa){
         notes = await Note.find().and([{"categories_not_soa":{$all: categories_not_soa }},{name:q},{"categories_soa":{ $all: categories_soa }}]).sort({[field]:order});
         reply.code(200).send(notes);
       }
 
+      if(q && winnerDate && invitedDate){
+        notes = await Note.find().and([{"winnerDate":{ $regex: winnerDate}},{"invitedDate":{$regex: invitedDate }},{name:q}]).sort({[field]:order});
+        reply.code(200).send(notes);
+      }
+
+      if(winnerDate && q && categories_soa){
+        notes = await Note.find().and([{"winnerDate":{ $regex: winnerDate}},{name:q},{"categories_soa":{ $all: categories_soa }}]).sort({[field]:order});
+        reply.code(200).send(notes);
+      }
+
+      if(winnerDate && q && categories_not_soa){
+        notes = await Note.find().and([{"winnerDate":{ $regex: winnerDate}},{"categories_not_soa":{$all: categories_not_soa }},{name:q}]).sort({[field]:order});
+        reply.code(200).send(notes);
+      }
+
+      if(invitedDate && q && categories_soa){
+        notes = await Note.find().and([{"invitedDate":{ $regex: invitedDate}},{name:q},{"categories_soa":{ $all: categories_soa }}]).sort({[field]:order});
+        reply.code(200).send(notes);
+      }
+
+      if(invitedDate && q && categories_not_soa){
+        notes = await Note.find().and([{"invitedDate":{ $regex: invitedDate}},{"categories_not_soa":{$all: categories_not_soa }},{name:q}]).sort({[field]:order});
+        reply.code(200).send(notes);
+      }
+
+      if(invitedDate && categories_not_soa && categories_soa){
+        notes = await Note.find().and([{"invitedDate":{ $regex: invitedDate}},{"categories_not_soa":{$all: categories_not_soa }},{"categories_soa":{ $all: categories_soa }}]).sort({[field]:order});
+        reply.code(200).send(notes);
+      }
+
+      if(winnerDate && categories_not_soa && categories_soa){
+        notes = await Note.find().and([{"winnerDate":{ $regex: winnerDate}},{"categories_not_soa":{$all: categories_not_soa }},{"categories_soa":{ $all: categories_soa }}]).sort({[field]:order});
+        reply.code(200).send(notes);
+      }
+
+      if(winnerDate && invitedDate && categories_soa){
+        notes = await Note.find().and([{ "winnerDate":{ $regex: winnerDate}},{ "invitedDate":{ $regex: invitedDate}},{"categories_soa":{ $all: categories_soa }}]).sort({[field]:order});
+        reply.code(200).send(notes);
+      }
+
+      if(winnerDate && invitedDate && categories_not_soa){
+        notes = await Note.find().and([{ "winnerDate":{ $regex: winnerDate}},{ "invitedDate":{ $regex: invitedDate}},{"categories_not_soa":{ $all: categories_not_soa }}]).sort({[field]:order});
+        reply.code(200).send(notes);
+      }
+
       if(categories_not_soa && categories_soa){
         notes = await Note.find().and([{"categories_not_soa":{$all: categories_not_soa }},{"categories_soa":{ $all: categories_soa }}]).sort({[field]:order});
+        reply.code(200).send(notes);
+      }
+
+      if(winnerDate && categories_soa){
+        notes = await Note.find().and([{"winnerDate":{ $regex: winnerDate}},{"categories_soa":{ $all: categories_soa }}]).sort({[field]:order});
+        reply.code(200).send(notes);
+      }
+
+      if(winnerDate && categories_not_soa){
+        notes = await Note.find().and([{"winnerDate":{ $regex: winnerDate}},{"categories_not_soa":{ $all: categories_not_soa }}]).sort({[field]:order});
+        reply.code(200).send(notes);
+      }
+
+      if(invitedDate && categories_soa){
+        notes = await Note.find().and([{"invitedDate":{ $regex: invitedDate}},{"categories_soa":{ $all: categories_soa }}]).sort({[field]:order});
+        reply.code(200).send(notes);
+      }
+
+      if(invitedDate && categories_not_soa){
+        notes = await Note.find().and([{"invitedDate":{ $regex: invitedDate}},{"categories_not_soa":{ $all: categories_not_soa }}]).sort({[field]:order});
+        reply.code(200).send(notes);
+      }
+
+      if(winnerDate && invitedDate){
+        notes = await Note.find().and([{ "winnerDate":{ $regex: winnerDate}},{ "invitedDate":{ $regex: invitedDate}}]).sort({[field]:order});
         reply.code(200).send(notes);
       }
 
@@ -59,6 +166,16 @@ module.exports = {
         reply.code(200).send(notes);
       }
 
+      if(q && winnerDate){
+        notes = await Note.find().and([{"winnerDate":{ $regex: categories_not_soa }},{name:q}]).sort({[field]:order});
+        reply.code(200).send(notes);
+      }
+
+      if(q && invitedDate){
+        notes = await Note.find().and([{"invitedDate":{ $regex: invitedDate }},{name:q}]).sort({[field]:order});
+        reply.code(200).send(notes);
+      }
+
       if(categories_soa){
         notes = await Note.find({ "categories_soa":{ $all: categories_soa }}).sort({[field]:order});
         reply.code(200).send(notes);
@@ -66,6 +183,16 @@ module.exports = {
 
       if(categories_not_soa){
         notes = await Note.find({ "categories_not_soa":{ $all: categories_not_soa }}).sort({[field]:order});
+        reply.code(200).send(notes);
+      }
+
+      if(invitedDate){
+        notes = await Note.find({ "invitedDate":{ $regex: invitedDate}}).sort({[field]:order});
+        reply.code(200).send(notes);
+      }
+
+      if(winnerDate){
+        notes = await Note.find({ "winnerDate":{ $regex: winnerDate}}).sort({[field]:order});
         reply.code(200).send(notes);
       }
 
@@ -78,6 +205,7 @@ module.exports = {
         notes = await Note.find({}).sort({[field]:order});
         reply.code(200).send(notes);
       }
+      */
     } catch (e) {
       reply.code(500).send(e);
     }
