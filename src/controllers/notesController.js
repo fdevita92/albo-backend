@@ -31,6 +31,7 @@ module.exports = {
       // filtering
       const filter = request.query.filter;
       filter_data = JSON.parse(filter);
+      location = filter_data["location"];
       categories_not_soa = filter_data["categories_not_soa"];
       categories_soa = filter_data["categories_soa"];
       invitedDate = filter_data["invitedDate"];
@@ -44,7 +45,11 @@ module.exports = {
 
       if(q){
         //query.push({name:q})
-        query.push({"name":{ $regex: q}});
+        query.push({"name":{ $regex: q, $options:"i"}});
+      }
+
+      if(location){
+        query.push({"location":{ $regex: location, $options:"i"}});
       }
 
       if(categories_soa){
@@ -227,7 +232,7 @@ module.exports = {
       const updates = request.body;
       await Note.findByIdAndUpdate(noteId, updates);
       const noteToUpdate = await Note.findById(noteId);
-      reply.code(200).send({ data: noteToUpdate });
+      reply.code(200).send({ data: noteToUpdate});
     } catch (e) {
       reply.code(500).send(e);
     }
