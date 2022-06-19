@@ -1,13 +1,13 @@
-const Supply = require('../models/supply');
+const Service = require('../models/service');
 
 module.exports = {
   //# create a note
   create: async (request, reply) => {
     try {
-      const supply = request.body;
-      console.log(request.body)
-      const newSupply = await Supply.create(supply);
-      reply.code(201).send(newSupply);
+      const service = request.body;
+      //console.log(request.body)
+      const newService = await Service.create(service);
+      reply.code(201).send(newService);
     } catch (e) {
       reply.code(500).send(e);
     }
@@ -17,7 +17,7 @@ module.exports = {
   fetch: async (request, reply) => {
     try {
       //sort
-      console.log(request.query)
+      //console.log(request.query)
       const sort = request.query.sort;
       sort_array = JSON.parse(sort);
       const field = sort_array[0];
@@ -32,11 +32,11 @@ module.exports = {
       const filter = request.query.filter;
       filter_data = JSON.parse(filter);
       location = filter_data["location"];
-      categories = filter_data["categories"];
+      type_of_services = filter_data["type_of_services"];
       q = filter_data["q"];
-      supplies = null;
+      services = null;
 
-      //console.log(filter);
+      console.log(filter);
 
       query = [];
 
@@ -49,17 +49,17 @@ module.exports = {
         query.push({"location":{ $regex: location, $options:"i"}});
       }
 
-      if(categories){
-        query.push({"categories":{ $all: categories}});
+      if(type_of_services){
+        query.push({"type_of_services":{ $all: type_of_services}});
       }
       //console.log(query);
 
       if(query.length > 0){
-        supplies = await Supply.find().and(query).sort({[field]:order});
-        reply.code(200).send(supplies);
+        services = await Service.find().and(query).sort({[field]:order});
+        reply.code(200).send(services);
       }else{
-        supplies = await Supply.find({}).sort({[field]:order})
-        reply.code(200).send(supplies);
+        services = await Service.find({}).sort({[field]:order})
+        reply.code(200).send(services);
       }
       
     } catch (e) {
@@ -70,9 +70,9 @@ module.exports = {
   //#get a single note
   get: async (request, reply) => {
     try {
-      const supplyId = request.params.id;
-      const supply = await Supply.findById(supplyId);
-      reply.code(200).send(supply);
+      const serviceId = request.params.id;
+      const service = await Service.findById(serviceId);
+      reply.code(200).send(service);
     } catch (e) {
       reply.code(500).send(e);
     }
@@ -81,12 +81,12 @@ module.exports = {
   //#update a note
   update: async (request, reply) => {
     try {
-      const supplyId = request.params.id;
+      const serviceId = request.params.id;
       const updates = request.body;
       //console.log(updates);
-      await Supply.findByIdAndUpdate(supplyId, updates);
-      const supplyToUpdate = await Supply.findById(supplyId);
-      reply.code(200).send({ data: supplyToUpdate});
+      await Service.findByIdAndUpdate(serviceId, updates);
+      const serviceToUpdate = await Service.findById(serviceId);
+      reply.code(200).send({ data: serviceToUpdate});
     } catch (e) {
       reply.code(500).send(e);
     }
@@ -95,10 +95,10 @@ module.exports = {
   //#delete a note
   delete: async (request, reply) => {
     try {
-      const supplyId = request.params.id;
-      const supplyToDelete = await Supply.findById(supplyId);
-      await Supply.findByIdAndDelete(supplyId);
-      reply.code(200).send({ data: supplyToDelete });
+      const serviceId = request.params.id;
+      const serviceToDelete = await Service.findById(serviceId);
+      await Service.findByIdAndDelete(serviceId);
+      reply.code(200).send({ data: serviceToDelete });
     } catch (e) {
       reply.code(500).send(e);
     }

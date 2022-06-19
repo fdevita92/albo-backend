@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const noteRoutes = require('./routes/noteRoutes');
 const authRoutes = require('./routes/authRoutes');
 const supplyRoutes = require('./routes/supplyRoutes');
+const servicesRoutes = require('./routes/servicesRoutes');
 const contentRangeHook = require('./hooks/contentRangeHook');
 const dotenv = require('dotenv');
 
@@ -19,9 +20,12 @@ try {
 }
 
 app.addHook('preHandler', contentRangeHook);
+
 noteRoutes(app);
 authRoutes(app);
 supplyRoutes(app);
+servicesRoutes(app);
+
 
 app.listen(5000, (err, address) => {
   if (err) {

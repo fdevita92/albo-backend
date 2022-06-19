@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const supplySchema = new Schema({
+const serviceSchema = new Schema({
   //text: { type: String, required: true },
   number:  { type: Number, required: true },
   name: { type: String, required: true },
@@ -11,10 +11,10 @@ const supplySchema = new Schema({
   email: {type: String, required:false},
   vat_number: {type: String, required:false},
   taxcode: { type: String, required: true },
-  categories:  { type: [String], required: true },
+  type_of_services: { type: [String], required: true },
 
 });
 
-const Supply = mongoose.model('supply', supplySchema);
+const Service = mongoose.model('service', serviceSchema);
 
-module.exports = Supply;
+module.exports = Service;

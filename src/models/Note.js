@@ -8,6 +8,8 @@ const noteSchema = new Schema({
   location: { type: String, required: true },
   address: { type: String, required: true },
   pec: { type: String, required: true },
+  email: {type: String, required:false},
+  vat_number: {type: String, required:false},
   taxcode: { type: String, required: true },
   categories_soa: {type:[String], required: false },
   categories_not_soa: {type: [String], required: false },
