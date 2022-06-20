@@ -5,7 +5,10 @@ const noteRoutes = require('./routes/noteRoutes');
 const authRoutes = require('./routes/authRoutes');
 const supplyRoutes = require('./routes/supplyRoutes');
 const servicesRoutes = require('./routes/servicesRoutes');
+const engRoutes = require('./routes/engRoutes');
+
 const contentRangeHook = require('./hooks/contentRangeHook');
+
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -25,6 +28,8 @@ noteRoutes(app);
 authRoutes(app);
 supplyRoutes(app);
 servicesRoutes(app);
+engRoutes(app);
+
 
 
 app.listen(5000, (err, address) => {

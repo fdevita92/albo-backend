@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const serviceSchema = new Schema({
+const engServiceSchema = new Schema({
   //text: { type: String, required: true },
   number:  { type: Number, required: true },
   name: { type: String, required: true },
@@ -11,9 +11,11 @@ const serviceSchema = new Schema({
   email: {type: String, required:false},
   vat_number: {type: String, required:false},
   taxcode: { type: String, required: true },
-  type_of_services: { type: [String], required: true },
+  type_of_services: {type:[String], required: false },
+  invitedDate: { type: String, required: false },
+  winnerDate: { type: String, required: false },
 });
 
-const Service = mongoose.model('service', serviceSchema);
+const EngService = mongoose.model('engService', engServiceSchema);
 
-module.exports = Service;
+module.exports = EngService;
