@@ -232,7 +232,7 @@ module.exports = {
       const updates = request.body;
       await Note.findByIdAndUpdate(noteId, updates);
       const noteToUpdate = await Note.findById(noteId);
-      reply.code(200).send({ data: noteToUpdate});
+      reply.code(200).send({data: {...noteToUpdate, id:noteId}});
     } catch (e) {
       reply.code(500).send(e);
     }

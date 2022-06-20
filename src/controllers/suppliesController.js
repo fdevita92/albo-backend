@@ -86,7 +86,7 @@ module.exports = {
       //console.log(updates);
       await Supply.findByIdAndUpdate(supplyId, updates);
       const supplyToUpdate = await Supply.findById(supplyId);
-      reply.code(200).send({ data: supplyToUpdate});
+      reply.code(200).send({data: {...supplyToUpdate, id:supplyId}});
     } catch (e) {
       reply.code(500).send(e);
     }

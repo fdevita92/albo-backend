@@ -86,7 +86,7 @@ module.exports = {
       //console.log(updates);
       await Service.findByIdAndUpdate(serviceId, updates);
       const serviceToUpdate = await Service.findById(serviceId);
-      reply.code(200).send({ data: serviceToUpdate});
+      reply.code(200).send({data: {...serviceToUpdate, id:serviceId}});
     } catch (e) {
       reply.code(500).send(e);
     }
