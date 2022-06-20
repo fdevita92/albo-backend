@@ -94,7 +94,7 @@ module.exports = {
       const updates = request.body;
       await EngService.findByIdAndUpdate(noteId, updates);
       const noteToUpdate = await EngService.findById(noteId);
-      reply.code(200).send({ data: noteToUpdate});
+      reply.code(200).send({data: {...noteToUpdate, id:noteId}});
     } catch (e) {
       reply.code(500).send(e);
     }
