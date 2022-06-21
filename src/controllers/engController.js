@@ -1,4 +1,4 @@
-const EngService = require('../models/engService');
+const EngService = require('../models/EngService');
 
 module.exports = {
   //# create a note

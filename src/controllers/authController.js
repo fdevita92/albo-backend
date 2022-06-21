@@ -1,4 +1,4 @@
-const User = require('../models/user');
+const User = require('../models/User');
 var sha256 = require('js-sha256').sha256;
 
 

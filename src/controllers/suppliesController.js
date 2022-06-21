@@ -1,4 +1,4 @@
-const Supply = require('../models/supply');
+const Supply = require('../models/Supply');
 
 module.exports = {
   //# create a note
