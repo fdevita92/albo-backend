@@ -1,4 +1,4 @@
-const Note = require('../models/note');
+const Note = require('../models/Note');
 
 module.exports = (request, reply, done) => {
   Note.count({}, (err, count) => {
