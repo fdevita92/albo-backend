@@ -13,6 +13,32 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
+
+/*app.register(require('@fastify/cors'), { 
+  
+})*/
+
+app.register(require('@fastify/cors'), (instance) => {
+  return (req, callback) => {
+    const corsOptions = {
+      // This is NOT recommended for production as it enables reflection exploits
+      origin: true,
+      allowedHeaders: ['Content-Type', 'Authorization', 'content-range', 'x-content-range'],
+      exposedHeaders: ['content-range', 'x-content-range'],
+      methods: ['GET', 'PUT', 'POST', 'DELETE'],
+    };
+
+    // do not include CORS headers for requests from localhost
+    // if (/^localhost$/m.test(req.headers.origin)) {
+    //   corsOptions.origin = false
+    // }
+
+    // callback expects two parameters: error and options
+    callback(null, corsOptions)
+  }
+})
+
+
 try {
   mongoose.connect(process.env.DB_URL, {
     useNewUrlParser: true,
