@@ -5,7 +5,14 @@ module.exports = {
   create: async (request, reply) => {
     try {
       const supply = request.body;
-      console.log(request.body)
+
+      number = request.body["number"];
+      const check =  await Supply.find({"number": number});
+
+      if(check.length > 0){
+       throw new Error("Numero già presente nel database!")
+      }
+
       const newSupply = await Supply.create(supply);
       reply.code(201).send(newSupply);
     } catch (e) {
@@ -83,7 +90,14 @@ module.exports = {
     try {
       const supplyId = request.params.id;
       const updates = request.body;
-      //console.log(updates);
+
+      number = request.body["number"];
+      const check =  await Supply.find({"number": number});
+
+      if(check.length > 0){
+       throw new Error("Numero già presente nel database!")
+      }
+
       await Supply.findByIdAndUpdate(supplyId, updates);
       const supplyToUpdate = await Supply.findById(supplyId);
       reply.code(200).send({data: {...supplyToUpdate, id:supplyId}});

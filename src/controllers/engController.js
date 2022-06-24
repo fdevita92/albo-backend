@@ -6,6 +6,14 @@ module.exports = {
     try {
       const note = request.body;
       const newNote = await EngService.create(note);
+
+      number = request.body["number"];
+      const check =  await EngService.find({"number": number});
+
+      if(check.length > 0){
+       throw new Error("Numero già presente nel database!")
+      }
+
       reply.code(201).send(newNote);
     } catch (e) {
       reply.code(500).send(e);
@@ -92,6 +100,14 @@ module.exports = {
     try {
       const noteId = request.params.id;
       const updates = request.body;
+
+      number = request.body["number"];
+      const check =  await EngService.find({"number": number});
+
+      if(check.length > 0){
+       throw new Error("Numero già presente nel database!")
+      }
+
       await EngService.findByIdAndUpdate(noteId, updates);
       const noteToUpdate = await EngService.findById(noteId);
       reply.code(200).send({data: {...noteToUpdate, id:noteId}});
