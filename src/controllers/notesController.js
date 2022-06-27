@@ -5,12 +5,6 @@ module.exports = {
   create: async (request, reply) => {
     try {
       const note = request.body;
-      number = request.body["number"];
-      const check =  await Note.find({"number": number});
-
-      if(check.length > 0){
-       throw new Error("Numero già presente nel database!")
-      }
 
       const newNote = await Note.create(note);
 
@@ -240,13 +234,6 @@ module.exports = {
       const noteId = request.params.id;
       const updates = request.body;
       
-      number = request.body["number"];
-      const check =  await Note.find({"number": number});
-      console.log(check);
-      if(check.length > 0){
-       throw new Error("Numero già presente nel database!")
-      }
-
       await Note.findByIdAndUpdate(noteId, updates);
       const noteToUpdate = await Note.findById(noteId);
       reply.code(200).send({data: {...noteToUpdate, id:noteId}});

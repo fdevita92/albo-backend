@@ -5,14 +5,6 @@ module.exports = {
   create: async (request, reply) => {
     try {
       const service = request.body;
-
-      number = request.body["number"];
-      const check =  await Service.find({"number": number});
-
-      if(check.length > 0){
-       throw new Error("Numero già presente nel database!")
-      }
-
       const newService = await Service.create(service);
       reply.code(201).send(newService);
     } catch (e) {
@@ -90,13 +82,6 @@ module.exports = {
     try {
       const serviceId = request.params.id;
       const updates = request.body;
-
-      number = request.body["number"];
-      const check =  await Service.find({"number": number});
-
-      if(check.length > 0){
-       throw new Error("Numero già presente nel database!")
-      }
 
       await Service.findByIdAndUpdate(serviceId, updates);
       const serviceToUpdate = await Service.findById(serviceId);
