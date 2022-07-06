@@ -79,7 +79,6 @@ module.exports = {
   //#get a single note
   get: async (request, reply) => {
     try {
-      console.log("CIAO ENG GET");  
       const noteId = request.params.id;
       const note = await EngService.findById(noteId);
       reply.code(200).send(note);

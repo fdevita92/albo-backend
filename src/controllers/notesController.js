@@ -5,7 +5,6 @@ module.exports = {
   create: async (request, reply) => {
     try {
       const note = request.body;
-
       const newNote = await Note.create(note);
 
       reply.code(201).send(newNote);
@@ -18,7 +17,7 @@ module.exports = {
   fetch: async (request, reply) => {
     try {
       //sort
-      console.log(request.query);
+      //console.log(request.query);
       const sort = request.query.sort;
       sort_array = JSON.parse(sort);
       const field = sort_array[0];
@@ -73,11 +72,11 @@ module.exports = {
 
       if(query.length > 0){
         notes = await Note.find().and(query).sort({[field]:order});
-        console.log(notes);
+        //console.log(notes);
         reply.code(200).send(notes);
       }else{
         notes = await Note.find({}).sort({[field]:order});
-        console.log(notes);
+        //console.log(notes);
         reply.code(200).send(notes);
       }
       

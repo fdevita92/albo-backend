@@ -35,7 +35,7 @@ module.exports = {
       q = filter_data["q"];
       services = null;
 
-      console.log(filter);
+      //console.log(filter);
 
       query = [];
 

@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const engServiceSchema = new Schema({
   //text: { type: String, required: true },
-  number:  { type: Number, required: true },
+  number:  { type: Number, required: true, unique:true },
   name: { type: String, required: true },
   location: { type: String, required: true },
   address: { type: String, required: true },

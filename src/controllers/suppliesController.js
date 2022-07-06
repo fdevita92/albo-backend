@@ -17,7 +17,7 @@ module.exports = {
   fetch: async (request, reply) => {
     try {
       //sort
-      console.log(request.query)
+      //console.log(request.query)
       const sort = request.query.sort;
       sort_array = JSON.parse(sort);
       const field = sort_array[0];
