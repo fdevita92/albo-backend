@@ -49,7 +49,11 @@ module.exports = {
       }
 
       if(type_of_services){
-        query.push({"type_of_services":{ $all: type_of_services}});
+        type_of_services.forEach(element => {
+          if(element)
+            query.push({"type_of_services":{ $elemMatch: { $regex: element, $options:"i"}}});
+        });
+        //query.push({"type_of_services":{ $all: type_of_services}});
       }
       //console.log(query);
 

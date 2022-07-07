@@ -50,7 +50,11 @@ module.exports = {
       }
 
       if(categories){
-        query.push({"categories":{ $all: categories}});
+        categories.forEach(element => {
+          if(element)
+            query.push({"categories":{ $elemMatch: { $regex: element, $options:"i"}}});
+        });
+        //query.push({"categories":{ $all: categories}});
       }
       //console.log(query);
 
