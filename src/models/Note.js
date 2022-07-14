@@ -9,12 +9,13 @@ const noteSchema = new Schema({
   address: { type: String, required: true },
   pec: { type: String, required: true },
   email: {type: String, required:false},
-  vat_number: {type: String, required:false},
-  taxcode: { type: String, required: true },
+  vat_number: {type: String, required:false,  unique:true},
+  taxcode: { type: String, required: true,  unique:true },
   categories_soa: {type:[String], required: false },
   categories_not_soa: {type: [String], required: false },
   invitedDate: { type: String, required: false },
   winnerDate: { type: String, required: false },
+  additional_notes: {type: String, required:false},
 });
 
 const Note = mongoose.model('note', noteSchema);

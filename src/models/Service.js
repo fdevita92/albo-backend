@@ -9,8 +9,8 @@ const serviceSchema = new Schema({
   address: { type: String, required: true },
   pec: { type: String, required: true },
   email: {type: String, required:false},
-  vat_number: {type: String, required:false},
-  taxcode: { type: String, required: true },
+  vat_number: {type: String, required:false,  unique:true},
+  taxcode: { type: String, required: true,  unique:true },
   type_of_services: { type: [String], required: true },
 });
 
