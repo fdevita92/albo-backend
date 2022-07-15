@@ -12,6 +12,8 @@ const serviceSchema = new Schema({
   vat_number: {type: String, required:false,  unique:true},
   taxcode: { type: String, required: true,  unique:true },
   type_of_services: { type: [String], required: true },
+  additional_notes: {type: String, required:false},
+
 });
 
 const Service = mongoose.model('service', serviceSchema);

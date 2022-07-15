@@ -12,6 +12,7 @@ const supplySchema = new Schema({
   vat_number: {type: String, required:false,  unique:true},
   taxcode: { type: String, required:true,  unique:true },
   categories:  { type: [String], required: true },
+  additional_notes: {type: String, required:false},
 
 });
 

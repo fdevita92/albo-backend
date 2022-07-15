@@ -14,6 +14,7 @@ const engServiceSchema = new Schema({
   type_of_services: {type:[String], required: false },
   invitedDate: { type: String, required: false },
   winnerDate: { type: String, required: false },
+  additional_notes: {type: String, required:false},
 });
 
 const EngService = mongoose.model('engService', engServiceSchema);
