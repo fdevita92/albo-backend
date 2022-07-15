@@ -63,7 +63,7 @@ module.exports = {
       }
 
       if(taxcode){
-        query.push({"vat_number":{ $regex: taxcode}});
+        query.push({"taxcode":{ $regex: taxcode}});
       }
 
       if(query.length > 0){
