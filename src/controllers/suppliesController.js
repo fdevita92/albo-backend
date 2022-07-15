@@ -34,6 +34,8 @@ module.exports = {
       location = filter_data["location"];
       categories = filter_data["categories"];
       q = filter_data["q"];
+      vat_number = filter_data["vat_number"];
+      taxcode = filter_data["taxcode"];
       supplies = null;
 
       //console.log(filter);
@@ -56,7 +58,14 @@ module.exports = {
         });
         //query.push({"categories":{ $all: categories}});
       }
-      //console.log(query);
+
+      if(vat_number){
+        query.push({"vat_number":{ $regex: vat_number}});
+      }
+
+      if(taxcode){
+        query.push({"vat_number":{ $regex: taxcode}});
+      }
 
       if(query.length > 0){
         supplies = await Supply.find().and(query).sort({[field]:order});

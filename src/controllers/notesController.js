@@ -36,6 +36,8 @@ module.exports = {
       invitedDate = filter_data["invitedDate"];
       winnerDate = filter_data["winnerDate"];
       q = filter_data["q"];
+      vat_number = filter_data["vat_number"];
+      taxcode = filter_data["taxcode"];
       notes = null;
 
       //console.log(filter);
@@ -65,6 +67,14 @@ module.exports = {
 
       if(invitedDate){
         query.push({"invitedDate":{ $regex: invitedDate}});
+      }
+
+      if(vat_number){
+        query.push({"vat_number":{ $regex: vat_number}});
+      }
+
+      if(taxcode){
+        query.push({"vat_number":{ $regex: taxcode}});
       }
 
       //console.log(query);

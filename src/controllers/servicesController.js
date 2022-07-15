@@ -33,6 +33,8 @@ module.exports = {
       location = filter_data["location"];
       type_of_services = filter_data["type_of_services"];
       q = filter_data["q"];
+      vat_number = filter_data["vat_number"];
+      taxcode = filter_data["taxcode"];
       services = null;
 
       //console.log(filter);
@@ -55,7 +57,14 @@ module.exports = {
         });
         //query.push({"type_of_services":{ $all: type_of_services}});
       }
-      //console.log(query);
+
+      if(vat_number){
+        query.push({"vat_number":{ $regex: vat_number}});
+      }
+
+      if(taxcode){
+        query.push({"vat_number":{ $regex: taxcode}});
+      }
 
       if(query.length > 0){
         services = await Service.find().and(query).sort({[field]:order});
